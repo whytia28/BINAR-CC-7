@@ -1,0 +1,33 @@
+package com.example.binarchapter7.main.ui.history
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.binarchapter7.R
+import com.example.binarchapter7.main.MenuActivity
+
+
+class HistoryFragment : Fragment() {
+
+    private lateinit var historyViewModel: HistoryViewModel
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        historyViewModel =
+            ViewModelProvider(this).get(HistoryViewModel::class.java)
+        return inflater.inflate(R.layout.fragment_history, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        (view.context as MenuActivity).supportActionBar?.title = getString(R.string.history)
+    }
+
+}
