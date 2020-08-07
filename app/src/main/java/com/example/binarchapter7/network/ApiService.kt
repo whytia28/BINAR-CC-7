@@ -1,12 +1,11 @@
 package com.example.binarchapter7.network
 
-import com.example.binarchapter7.pojo.PostBodyRegister
-import com.example.binarchapter7.pojo.PostLoginBody
-import com.example.binarchapter7.pojo.PostLoginResponse
-import com.example.binarchapter7.pojo.PostRegisterResponse
+import com.example.binarchapter7.pojo.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -15,4 +14,7 @@ interface ApiService {
 
     @POST("register")
     fun registerUser(@Body bodyRegister: PostBodyRegister): Call<PostRegisterResponse>
+
+    @PUT("{id}")
+    fun updateUser(@Body updateBody: PutUpdateBody, @Path("id") id: String): Call<PutUpdateResponse>
 }
