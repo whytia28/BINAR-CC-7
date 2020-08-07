@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.example.binarchapter7.R
 import com.example.binarchapter7.areaMain.PemainVsCpu
 import com.example.binarchapter7.areaMain.PemainVsPemain
@@ -16,8 +15,9 @@ import kotlinx.android.synthetic.main.fragment_battle.*
 
 
 class BattleFragment : Fragment(), View.OnClickListener {
-    private val args : BattleFragmentArgs by navArgs()
+    //    private val args : BattleFragmentArgs by navArgs()
     private lateinit var battleViewModel: BattleViewModel
+    private var username = MenuActivity.username
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,7 @@ class BattleFragment : Fragment(), View.OnClickListener {
 
         (view.context as MenuActivity).supportActionBar?.title = getString(R.string.battle)
 
-        val username = args.username
+//        val username = args.username
         tv_pemain.text = getString(R.string.vs_pemain, username)
         tv_cpu.text = getString(R.string.vs_cpu, username)
 

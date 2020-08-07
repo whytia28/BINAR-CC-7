@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Binar CC 6</string>
+    <string name="app_name">Binar CC 7</string>
     <string name="logo">logo</string>
     <string name="keluar">EXIT</string>
     <string name="batu">rock</string>
@@ -77,5 +77,6 @@
     <string name="history_title">History:</string>
     <string name="cpu_win">CPU Win</string>
     <string name="button_save">Button Save</string>
+    <string name="button_restart">Button restart</string>
 
 </resources>

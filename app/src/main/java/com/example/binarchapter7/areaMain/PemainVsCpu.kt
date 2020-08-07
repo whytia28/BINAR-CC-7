@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.example.binarchapter7.main.MainActivity
 import com.example.binarchapter7.R
 import com.example.binarchapter7.logic.Controler
+import com.example.binarchapter7.main.MenuActivity
 import kotlinx.android.synthetic.main.activity_pemain_vs_cpu.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
@@ -16,13 +16,13 @@ class PemainVsCpu : AppCompatActivity() {
 
     private var pilihanSatu: String = ""
     private var pilihanDua: String = ""
-    private var nama = MainActivity.namaPemain
+    private var username = MenuActivity.username
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pemain_vs_cpu)
 
-        pemain1.text = nama
+        pemain1.text = username
 
         batu1.setOnClickListener {
             pilihanSatu = Controler.pilihanGame[0]
@@ -41,6 +41,10 @@ class PemainVsCpu : AppCompatActivity() {
             showResult()
             gunting1.foreground = resources.getDrawable(R.drawable.overlay, null)
         }
+
+        iv_restart.setOnClickListener {
+            startNew()
+        }
     }
 
     private fun showResult() {
@@ -50,7 +54,7 @@ class PemainVsCpu : AppCompatActivity() {
             val hasilMain = control.caraMainCpu(pilihanSatu)
             pemenang = when (hasilMain) {
                 "pemain 1 menang" -> {
-                    getString(R.string.selamat_kamu_menang, nama)
+                    getString(R.string.selamat_kamu_menang, username)
                 }
                 "CPU 2 menang" -> {
                     getString(R.string.cpu_menang)
@@ -86,7 +90,6 @@ class PemainVsCpu : AppCompatActivity() {
             }, 1000)
             dialog.btn_exit.setOnClickListener {
                 dialogMessage.dismiss()
-                startNew()
             }
         }
     }

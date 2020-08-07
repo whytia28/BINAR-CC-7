@@ -13,8 +13,9 @@ import kotlinx.android.synthetic.main.fragment_profil.*
 
 
 class ProfileFragment : Fragment() {
-    private val args: ProfileFragmentArgs by navArgs()
     private lateinit var profileViewModel: ProfileViewModel
+    private var username = MenuActivity.username
+    private var email = MenuActivity.email
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,9 +31,6 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (view.context as MenuActivity).supportActionBar?.title = getString(R.string.profile)
-
-        val username = args.username
-        val email = args.email
 
         et_email.setText(email)
         et_username.setText(username)

@@ -1,13 +1,12 @@
 package com.example.binarchapter7.areaMain
 
 
-
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.example.binarchapter7.main.MainActivity
 import com.example.binarchapter7.R
 import com.example.binarchapter7.logic.Controler
+import com.example.binarchapter7.main.MenuActivity
 import kotlinx.android.synthetic.main.activity_pemain_vs_pemain.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
@@ -16,13 +15,13 @@ class PemainVsPemain : AppCompatActivity() {
 
     private var pilihanSatu: String = ""
     private var pilihanDua: String = ""
-    private var nama = MainActivity.namaPemain
+    private var username = MenuActivity.username
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pemain_vs_pemain)
 
-        pemain1.text = nama
+        pemain1.text = username
 
         batu1.setOnClickListener {
             pilihanSatu = "batu"
@@ -54,6 +53,9 @@ class PemainVsPemain : AppCompatActivity() {
             showResult()
             gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
         }
+        iv_restart.setOnClickListener {
+            startNew()
+        }
     }
 
     private fun showResult() {
@@ -63,7 +65,7 @@ class PemainVsPemain : AppCompatActivity() {
             val hasilMain = control.caraMain(pilihanSatu, pilihanDua)
             pemenang = when (hasilMain) {
                 "pemain 1 menang" -> {
-                    getString(R.string.selamat_kamu_menang, nama)
+                    getString(R.string.selamat_kamu_menang, username)
                 }
                 "pemain 2 menang" -> {
                     getString(R.string.selamat_pemain_2_menang)
@@ -81,7 +83,6 @@ class PemainVsPemain : AppCompatActivity() {
             dialogMessage.show()
             dialog.btn_exit.setOnClickListener {
                 dialogMessage.dismiss()
-                startNew()
             }
         }
 

@@ -13,9 +13,10 @@ import kotlinx.android.synthetic.main.activity_menu.*
 
 class MenuActivity : AppCompatActivity() {
 
-//    companion object {
-//        var username : String = ""
-//    }
+    companion object {
+        var username: String = ""
+        var email: String = ""
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +25,17 @@ class MenuActivity : AppCompatActivity() {
         setSupportActionBar(menu_actionbar)
 
         val user = intent.getParcelableExtra<PostLoginResponse.Data>("data")
-
-        val username = user?.username.toString()
-        val email = user?.email.toString()
+        username = user?.username.toString()
+        email = user?.email.toString()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val bundle = Bundle()
-        bundle.putString("username", username)
-        bundle.putString("email", email)
-        navController.setGraph(navController.graph, bundle)
+//        val bundle = Bundle()
+//        bundle.putString("username", username)
+//        bundle.putString("email", email)
+//        navController.setGraph(navController.graph, bundle)
 
         val appBarConfiguration = AppBarConfiguration(
             setOf(
