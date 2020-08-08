@@ -11,54 +11,57 @@ import kotlinx.android.synthetic.main.activity_pemain_vs_pemain.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 
-class PemainVsPemain : AppCompatActivity() {
+class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
 
     private var pilihanSatu: String = ""
     private var pilihanDua: String = ""
     private var username = MenuActivity.username
+
+    private lateinit var presenter: PemainVsPemainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pemain_vs_pemain)
 
         pemain1.text = username
+        presenter = PemainVsPemainPresenter(this)
 
         batu1.setOnClickListener {
-            pilihanSatu = "batu"
-            showResult()
-            batu1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanSatu = Controler.pilihanGame[0]
+            presenter.setOverlay()
+            presenter.showResult()
         }
         kertas1.setOnClickListener {
-            pilihanSatu = "kertas"
-            showResult()
-            kertas1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanSatu = Controler.pilihanGame[1]
+            presenter.setOverlay()
+            presenter.showResult()
         }
         gunting1.setOnClickListener {
-            pilihanSatu = "gunting"
-            showResult()
-            gunting1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanSatu = Controler.pilihanGame[2]
+            presenter.setOverlay()
+            presenter.showResult()
         }
         batu2.setOnClickListener {
-            pilihanDua = "batu"
-            showResult()
-            batu2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanDua = Controler.pilihanGame[0]
+            presenter.showResult()
+            presenter.setOverlay()
         }
         kertas2.setOnClickListener {
-            pilihanDua = "kertas"
-            showResult()
-            kertas2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanDua = Controler.pilihanGame[1]
+            presenter.showResult()
+            presenter.setOverlay()
         }
         gunting2.setOnClickListener {
-            pilihanDua = "gunting"
-            showResult()
-            gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            pilihanDua = Controler.pilihanGame[2]
+            presenter.showResult()
+            presenter.setOverlay()
         }
         iv_restart.setOnClickListener {
-            startNew()
+            presenter.startNew()
         }
     }
 
-    private fun showResult() {
+    override fun showResult() {
         val pemenang: String
         if (pilihanSatu != "" && pilihanDua != "") {
             val control = Controler()
@@ -88,7 +91,33 @@ class PemainVsPemain : AppCompatActivity() {
 
     }
 
-    private fun startNew() {
+    override fun setOverlay() {
+
+        when (pilihanSatu) {
+            Controler.pilihanGame[0] -> {
+                batu1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+            Controler.pilihanGame[1] -> {
+                kertas1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+            Controler.pilihanGame[2] -> {
+                gunting1.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+        }
+        when (pilihanDua) {
+            Controler.pilihanGame[0] -> {
+                batu2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+            Controler.pilihanGame[1] -> {
+                kertas2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+            Controler.pilihanGame[2] -> {
+                gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
+            }
+        }
+    }
+
+    override fun startNew() {
         pilihanSatu = ""
         pilihanDua = ""
         batu1.foreground = null
@@ -98,4 +127,5 @@ class PemainVsPemain : AppCompatActivity() {
         gunting1.foreground = null
         gunting2.foreground = null
     }
+
 }
