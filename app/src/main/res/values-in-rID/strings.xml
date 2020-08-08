@@ -39,13 +39,14 @@
     <string name="date_title">Tanggal</string>
     <string name="btnadd_memo">Tambah Memo</string>
     <string name="add__memo_success">Berhasil Menambahkan Memo</string>
-    <string name="add_memo_failed">Gagal Menambahkan Memo</string>
     <string name="cancel">Batal</string>
     <string name="edit_your_memo">Edit Memo Kamu</string>
     <string name="update">Ubah</string>
     <string name="delete">Hapus</string>
-    <string name="delete_success">Berhasil Menghapus Memo</string>
-    <string name="delete_failed">Gagal Menghapus Memo</string>
-    <string name="update_failed">Gagal Mengubah Memo</string>
-    <string name="update_success">Berhasil Mengubah Memo</string>
+    <string name="delete_success">Berhasil Menghapus Riwayat</string>
+    <string name="delete_failed">Gagal Menghapus Riwayat</string>
+    <string name="update_failed">Gagal Mengubah Riwayat</string>
+    <string name="update_success">Berhasil Mengubah Riwayat</string>
+    <string name="add_history_success">Berhasil Menambah Riwayat</string>
+    <string name="add_memo_failed">Gagal Menambah Riwayat</string>
 </resources>

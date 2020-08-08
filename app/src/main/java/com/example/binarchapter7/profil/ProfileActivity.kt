@@ -48,7 +48,7 @@ class ProfileActivity : AppCompatActivity(), View.OnClickListener {
     private fun fetchMemo() {
 
         GlobalScope.launch {
-            val listMemo = battleDb?.memoDao()?.getAllBattle()
+            val listMemo = battleDb?.battleDao()?.getAllBattle()
             runOnUiThread {
                 listMemo?.let {
 //                    val adapter =

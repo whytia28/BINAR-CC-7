@@ -2,20 +2,28 @@ package com.example.binarchapter7.areaMain
 
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.binarchapter7.R
+import com.example.binarchapter7.database.Battle
+import com.example.binarchapter7.database.BattleDatabase
 import com.example.binarchapter7.logic.Controler
 import com.example.binarchapter7.main.MenuActivity
 import kotlinx.android.synthetic.main.activity_pemain_vs_pemain.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
 
+
     private var pilihanSatu: String = ""
     private var pilihanDua: String = ""
+    private var pemenang: String = ""
     private var username = MenuActivity.username
+    private var battleDb: BattleDatabase? = null
 
     private lateinit var presenter: PemainVsPemainPresenter
 
@@ -59,10 +67,12 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
         iv_restart.setOnClickListener {
             presenter.startNew()
         }
+        iv_save.setOnClickListener {
+            presenter.saveHistory()
+        }
     }
 
     override fun showResult() {
-        val pemenang: String
         if (pilihanSatu != "" && pilihanDua != "") {
             val control = Controler()
             val hasilMain = control.caraMain(pilihanSatu, pilihanDua)
@@ -114,6 +124,32 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
             Controler.pilihanGame[2] -> {
                 gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
             }
+        }
+    }
+
+    override fun saveHistory() {
+        val date = presenter.getCurrentDate()
+        val objBattle = Battle(null, pemenang, date)
+        GlobalScope.launch {
+            val result = battleDb?.battleDao()?.insert(objBattle)
+            runOnUiThread {
+                if (result != 0.toLong()) {
+                    Toast.makeText(
+                        this@PemainVsPemain,
+                        getString(R.string.add_history_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    if (result != 0.toLong()) {
+                        Toast.makeText(
+                            this@PemainVsPemain,
+                            getString(R.string.add_history_failed),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
+
         }
     }
 

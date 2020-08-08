@@ -9,7 +9,7 @@ import com.example.binarchapter7.dao.BattleDao
 @Database(entities = [Battle::class], version = 1)
 abstract class BattleDatabase : RoomDatabase() {
 
-    abstract fun memoDao(): BattleDao
+    abstract fun battleDao(): BattleDao
 
     companion object {
         private var INSTANCE: BattleDatabase? = null
