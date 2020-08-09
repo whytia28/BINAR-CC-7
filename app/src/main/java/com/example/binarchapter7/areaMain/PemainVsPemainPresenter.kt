@@ -1,12 +1,17 @@
 package com.example.binarchapter7.areaMain
 
 
-
-
+import android.content.Context
+import com.example.binarchapter7.database.Battle
+import com.example.binarchapter7.database.BattleDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PemainVsPemainPresenter(val listener: Listener) {
+class PemainVsPemainPresenter(context: Context, val listener: Listener) {
+
+    private var battleDb = BattleDatabase.getInstance(context)
 
     fun showResult() {
         listener.showResult()
@@ -20,12 +25,29 @@ class PemainVsPemainPresenter(val listener: Listener) {
         listener.setOverlay()
     }
 
-
-    fun saveHistory() {
-        listener.saveHistory()
+    fun saveHistory(battle: Battle) {
+        GlobalScope.launch {
+            val result = battleDb?.battleDao()?.insert(battle)
+            if (result != 0.toLong()) {
+                listener.showSuccessSave()
+            } else {
+                listener.showFailedSave()
+            }
+        }
     }
 
-    fun getCurrentDate() : String {
+    fun deleteHistory(battle: Battle) {
+        GlobalScope.launch {
+            val result = battleDb?.battleDao()?.deleteHistory(battle)
+            if (result != 0) {
+                listener.showSuccessDelete()
+            } else {
+                listener.showFailedDelete()
+            }
+        }
+    }
+
+    fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = Date()
 
@@ -37,6 +59,9 @@ class PemainVsPemainPresenter(val listener: Listener) {
         fun startNew()
         fun showResult()
         fun setOverlay()
-        fun saveHistory()
+        fun showSuccessSave()
+        fun showFailedSave()
+        fun showSuccessDelete()
+        fun showFailedDelete()
     }
 }

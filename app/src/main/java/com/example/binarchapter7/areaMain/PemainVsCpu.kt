@@ -4,9 +4,11 @@ import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import com.example.binarchapter7.R
+import com.example.binarchapter7.database.Battle
 import com.example.binarchapter7.logic.Controler
-import com.example.binarchapter7.main.MenuActivity
+import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.activity_pemain_vs_cpu.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
@@ -15,16 +17,23 @@ import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
 class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
 
     private var pilihanSatu: String = ""
-    private var username = MenuActivity.username
-
+    private var pemenang: String = ""
+    private lateinit var result: PostLoginResponse.Data
     private lateinit var presenter: PemainVsCpuPresenter
+    private lateinit var date: String
+    private lateinit var objBattle: Battle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pemain_vs_cpu)
 
-        presenter = PemainVsCpuPresenter(this)
-        pemain1.text = username
+        intent.getParcelableExtra<PostLoginResponse.Data>("data")?.let {
+            result = it
+        }
+        presenter = PemainVsCpuPresenter(this, this)
+        pemain1.text = result.username
+        date = presenter.getCurrentDate()
+        objBattle = Battle(null, pemenang, date)
 
         batu1.setOnClickListener {
             pilihanSatu = Controler.pilihanGame[0]
@@ -48,16 +57,22 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
         iv_restart.setOnClickListener {
             presenter.startNew()
         }
+
+        iv_save.setOnClickListener {
+            presenter.saveHistory(objBattle)
+        }
+        iv_delete_save.setOnClickListener {
+            presenter.deleteHistory(objBattle)
+        }
     }
 
     override fun showResult() {
-        val pemenang: String
         if (pilihanSatu != "") {
             val control = Controler()
             val hasilMain = control.caraMainCpu(pilihanSatu)
             pemenang = when (hasilMain) {
                 "pemain 1 menang" -> {
-                    getString(R.string.selamat_kamu_menang, username)
+                    getString(R.string.selamat_kamu_menang, result.username)
                 }
                 "CPU 2 menang" -> {
                     getString(R.string.cpu_menang)
@@ -99,6 +114,46 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
             Controler.pilihanGame[2] -> {
                 gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
             }
+        }
+    }
+
+    override fun showSuccessSave() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsCpu,
+                getString(R.string.add_history_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun showFailedSave() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsCpu,
+                getString(R.string.add_history_failed),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun showSuccessDelete() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsCpu,
+                getString(R.string.delete_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun showFailedDelete() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsCpu,
+                getString(R.string.delete_failed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

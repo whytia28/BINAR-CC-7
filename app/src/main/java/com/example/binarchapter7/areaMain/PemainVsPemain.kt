@@ -7,32 +7,33 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.binarchapter7.R
 import com.example.binarchapter7.database.Battle
-import com.example.binarchapter7.database.BattleDatabase
 import com.example.binarchapter7.logic.Controler
-import com.example.binarchapter7.main.MenuActivity
+import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.activity_pemain_vs_pemain.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.*
 import kotlinx.android.synthetic.main.custom_alert_dialog.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
-
 
     private var pilihanSatu: String = ""
     private var pilihanDua: String = ""
     private var pemenang: String = ""
-    private var username = MenuActivity.username
-    private var battleDb: BattleDatabase? = null
-
+    private lateinit var result: PostLoginResponse.Data
     private lateinit var presenter: PemainVsPemainPresenter
+    private lateinit var date: String
+    private lateinit var objBattle: Battle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pemain_vs_pemain)
 
-        pemain1.text = username
-        presenter = PemainVsPemainPresenter(this)
+        intent.getParcelableExtra<PostLoginResponse.Data>("data")?.let {
+            result = it
+        }
+        pemain1.text = result.username
+        presenter = PemainVsPemainPresenter(this, this)
+        date = presenter.getCurrentDate()
+        objBattle = Battle(null, pemenang, date)
 
         batu1.setOnClickListener {
             pilihanSatu = Controler.pilihanGame[0]
@@ -68,7 +69,10 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
             presenter.startNew()
         }
         iv_save.setOnClickListener {
-            presenter.saveHistory()
+            presenter.saveHistory(objBattle)
+        }
+        iv_delete_save.setOnClickListener {
+            presenter.deleteHistory(objBattle)
         }
     }
 
@@ -78,7 +82,7 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
             val hasilMain = control.caraMain(pilihanSatu, pilihanDua)
             pemenang = when (hasilMain) {
                 "pemain 1 menang" -> {
-                    getString(R.string.selamat_kamu_menang, username)
+                    getString(R.string.selamat_kamu_menang, result.username)
                 }
                 "pemain 2 menang" -> {
                     getString(R.string.selamat_pemain_2_menang)
@@ -127,29 +131,43 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
         }
     }
 
-    override fun saveHistory() {
-        val date = presenter.getCurrentDate()
-        val objBattle = Battle(null, pemenang, date)
-        GlobalScope.launch {
-            val result = battleDb?.battleDao()?.insert(objBattle)
-            runOnUiThread {
-                if (result != 0.toLong()) {
-                    Toast.makeText(
-                        this@PemainVsPemain,
-                        getString(R.string.add_history_success),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    if (result != 0.toLong()) {
-                        Toast.makeText(
-                            this@PemainVsPemain,
-                            getString(R.string.add_history_failed),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
+    override fun showSuccessSave() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsPemain,
+                getString(R.string.add_history_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
+    override fun showFailedSave() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsPemain,
+                getString(R.string.add_history_failed),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun showSuccessDelete() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsPemain,
+                getString(R.string.delete_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun showFailedDelete() {
+        runOnUiThread {
+            Toast.makeText(
+                this@PemainVsPemain,
+                getString(R.string.delete_failed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

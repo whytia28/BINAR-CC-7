@@ -15,9 +15,10 @@ import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.fragment_battle.*
 
 
-class BattleFragment : Fragment(), View.OnClickListener {
+class BattleFragment : Fragment(), View.OnClickListener, BattlePresenter.Listener {
     private lateinit var battleViewModel: BattleViewModel
     private lateinit var result: PostLoginResponse.Data
+    private lateinit var presenter: BattlePresenter
 
 
     override fun onCreateView(
@@ -43,6 +44,8 @@ class BattleFragment : Fragment(), View.OnClickListener {
         tv_pemain.text = getString(R.string.vs_pemain, result.username)
         tv_cpu.text = getString(R.string.vs_cpu, result.username)
 
+        presenter = BattlePresenter(this)
+
         pemainvspemain.setOnClickListener(this)
         pemainvscpu.setOnClickListener(this)
         btn_exit.setOnClickListener(this)
@@ -52,17 +55,27 @@ class BattleFragment : Fragment(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.pemainvspemain -> {
-                val moveIntent = Intent(context, PemainVsPemain::class.java)
-                startActivity(moveIntent)
+                presenter.goToPemainVsPemain(result)
             }
             R.id.pemainvscpu -> {
-                val moveIntent = Intent(context, PemainVsCpu::class.java)
-                startActivity(moveIntent)
+                presenter.goToPemainVsCpu(result)
             }
             R.id.btn_exit -> {
                 activity?.finish()
             }
         }
+    }
+
+    override fun goToPemainVsPemain(data: PostLoginResponse.Data) {
+        val moveIntent = Intent(context, PemainVsPemain::class.java)
+        moveIntent.putExtra("data", data)
+        startActivity(moveIntent)
+    }
+
+    override fun goToPemainVsCpu(data: PostLoginResponse.Data) {
+        val moveIntent = Intent(context, PemainVsCpu::class.java)
+        moveIntent.putExtra("data", data)
+        startActivity(moveIntent)
     }
 
 }

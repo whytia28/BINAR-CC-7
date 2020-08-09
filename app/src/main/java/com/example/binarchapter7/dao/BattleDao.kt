@@ -14,5 +14,5 @@ interface BattleDao {
     fun insert(battle: Battle): Long
 
     @Delete
-    fun deleteMemo(battle: Battle): Int
+    fun deleteHistory(battle: Battle): Int
 }

@@ -4,25 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.binarchapter7.R
 import com.example.binarchapter7.adapter.AdapterHistory
 import com.example.binarchapter7.database.Battle
-import com.example.binarchapter7.database.BattleDatabase
 import com.example.binarchapter7.main.MenuActivity
-import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.fragment_history.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class HistoryFragment : Fragment(), HistoryPresenter.Listener {
 
     private lateinit var historyViewModel: HistoryViewModel
     private lateinit var presenter: HistoryPresenter
-    private var battleDb : BattleDatabase? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,37 +33,55 @@ class HistoryFragment : Fragment(), HistoryPresenter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val context  = view.context as MenuActivity
-
+        val context = view.context as MenuActivity
 
         context.supportActionBar?.title = getString(R.string.history)
-        presenter = HistoryPresenter(this)
-        battleDb = BattleDatabase.getInstance(context)
+        presenter = HistoryPresenter(context, this)
 
-
-
-        rv_history_battle.layoutManager = LinearLayoutManager(context)
+        rv_history_battle.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv_history_battle.setHasFixedSize(true)
         presenter.showAllHistory()
     }
 
-    override fun showAllHistory() {
+    override fun onResume() {
+        super.onResume()
+        presenter.showAllHistory()
+    }
 
-        GlobalScope.launch {
-           val listHistory = battleDb?.battleDao()?.getAllBattle()
-            activity?.runOnUiThread {
-               listHistory?.let {
-                   val adapter = AdapterHistory(it)
-                   rv_history_battle.adapter = adapter
-//                   tv_history_empty.visibility = View.GONE
-               }
-            }
+
+    override fun showAllHistory(listHistory: List<Battle>) {
+        activity?.runOnUiThread {
+            val adapter = AdapterHistory(listHistory, presenter)
+            rv_history_battle.adapter = adapter
+            presenter.setupUi(listHistory)
         }
     }
 
-    override fun setupUi() {
-
+    override fun showSuccessDelete() {
+        activity?.runOnUiThread {
+            Toast.makeText(
+                context,
+                getString(R.string.delete_success),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
+    override fun showFailedDelete() {
+        activity?.runOnUiThread {
+            Toast.makeText(
+                context,
+                getString(R.string.delete_failed),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun setupUi(listHistory: List<Battle>) {
+        if (listHistory.isNotEmpty()) {
+            tv_history_empty.visibility = View.GONE
+        }
+    }
 
 }

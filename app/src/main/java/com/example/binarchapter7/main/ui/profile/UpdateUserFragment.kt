@@ -76,8 +76,9 @@ class UpdateUserFragment : DialogFragment(), View.OnClickListener, ProfilePresen
                     email = et_email.text.toString()
                     username = et_username.text.toString()
                 }
-                presenter.updateUser(result)
                 dialog?.dismiss()
+                presenter.updateUser(result)
+                presenter.showProfile()
             }
             R.id.btn_cancel -> {
                 dialog?.dismiss()

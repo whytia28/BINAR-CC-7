@@ -51,8 +51,8 @@ class ProfileFragment : Fragment(), ProfilePresenter.Listener {
 
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         presenter.showProfile()
     }
 
