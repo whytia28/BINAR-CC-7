@@ -8,7 +8,6 @@
     tools:context="com.example.binarchapter7.main.ui.battle.BattleFragment">
 
     <TextView
-        android:id="@+id/tv_battle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/choose_your_opponent"

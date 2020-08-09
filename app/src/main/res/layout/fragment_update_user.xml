@@ -28,7 +28,7 @@
         android:theme="@style/MyEditText"
         android:textSize="20sp"
         android:labelFor="@id/et_email"
-        android:autofillHints="@string/memo"
+        android:autofillHints="@string/email"
         android:inputType="textEmailAddress" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:theme="@style/MyEditText"
         android:textSize="20sp"
         android:labelFor="@id/et_username"
-        android:autofillHints="@string/memo"
+        android:autofillHints="@string/username"
         android:inputType="textPersonName" />
 
     <Button

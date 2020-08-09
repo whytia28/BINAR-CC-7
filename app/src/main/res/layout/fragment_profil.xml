@@ -7,7 +7,6 @@
     tools:context="com.example.binarchapter7.main.ui.profile.ProfileFragment">
 
     <TextView
-        android:id="@+id/tv_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/data_profile"

@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.binarchapter7.R
-import com.example.binarchapter7.areaMain.PemainVsPemainPresenter
 import com.example.binarchapter7.database.Battle
 import com.example.binarchapter7.main.ui.history.HistoryPresenter
 import kotlinx.android.synthetic.main.history_item.view.*

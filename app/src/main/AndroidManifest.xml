@@ -16,7 +16,6 @@
             android:name=".main.MenuActivity"
             android:label="@string/title_activity_menu" />
         <activity android:name=".register.RegisterActivity" />
-        <activity android:name=".profil.ProfileActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".splashscreen.SplashScreenActivity">
             <intent-filter>
@@ -25,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.MainActivity" />
         <activity android:name=".welcome.WelcomeActivity" />
         <activity android:name=".areaMain.PemainVsCpu" />
         <activity android:name=".areaMain.PemainVsPemain" />

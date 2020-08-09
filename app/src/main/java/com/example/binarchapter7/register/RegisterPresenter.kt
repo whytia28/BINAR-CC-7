@@ -3,7 +3,6 @@ package com.example.binarchapter7.register
 import com.example.binarchapter7.network.ApiClient
 import com.example.binarchapter7.pojo.PostBodyRegister
 import com.example.binarchapter7.pojo.PostRegisterResponse
-import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
