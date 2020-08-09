@@ -16,10 +16,10 @@ data class PostLoginResponse(
     @Parcelize
     data class Data(
         @SerializedName("email")
-        val email: String,
+        var email: String,
         @SerializedName("id")
         val id: Int,
         @SerializedName("username")
-        val username: String
+        var username: String
     ) : Parcelable
 }

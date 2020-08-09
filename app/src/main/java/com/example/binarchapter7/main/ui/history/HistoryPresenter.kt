@@ -10,5 +10,6 @@ class HistoryPresenter (private val listener: Listener) {
 
     interface Listener {
         fun showAllHistory()
+        fun setupUi()
     }
 }

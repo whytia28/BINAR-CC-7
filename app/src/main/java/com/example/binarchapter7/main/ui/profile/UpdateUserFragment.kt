@@ -1,6 +1,6 @@
 package com.example.binarchapter7.main.ui.profile
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import com.example.binarchapter7.R
-import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.fragment_update_user.*
 
 private const val USERNAME = "username"
 private const val EMAIL = "email"
 
-class UpdateUserFragment : DialogFragment(), View.OnClickListener {
+class UpdateUserFragment : DialogFragment(), View.OnClickListener, ProfilePresenter.Listener {
 
     private lateinit var presenter: ProfilePresenter
-    private lateinit var result: PostLoginResponse.Data
     private var username: String? = null
     private var email: String? = null
+    private var result = ProfileFragment.result
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,20 +63,37 @@ class UpdateUserFragment : DialogFragment(), View.OnClickListener {
         btn_update_user.setOnClickListener(this)
         btn_cancel.setOnClickListener(this)
 
-        et_email.setText(email)
-        et_username.setText(username)
+        presenter = ProfilePresenter(this)
+
+        et_email.setText(result.email)
+        et_username.setText(result.username)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_update_user -> {
-                email = et_email.text.toString()
-                username = et_username.text.toString()
-//                presenter.updateUser(email, username)
+                result.apply {
+                    email = et_email.text.toString()
+                    username = et_username.text.toString()
+                }
+                presenter.updateUser(result)
+                dialog?.dismiss()
             }
             R.id.btn_cancel -> {
                 dialog?.dismiss()
             }
         }
+    }
+
+    override fun onUpdateSuccess(message: String) {
+
+    }
+
+    override fun onUpdateFailed(errorMessage: String) {
+
+    }
+
+    override fun showProfile() {
+
     }
 }

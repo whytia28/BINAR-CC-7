@@ -33,12 +33,13 @@ class ProfilePresenter(val listener: Listener) {
         })
     }
 
-    fun showDialog() {
-
+    fun showProfile() {
+        listener.showProfile()
     }
 
     interface Listener {
         fun onUpdateSuccess(message: String)
         fun onUpdateFailed(errorMessage: String)
+        fun showProfile()
     }
 }

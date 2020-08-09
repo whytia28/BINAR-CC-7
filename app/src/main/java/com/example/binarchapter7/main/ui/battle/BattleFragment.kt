@@ -11,13 +11,14 @@ import com.example.binarchapter7.R
 import com.example.binarchapter7.areaMain.PemainVsCpu
 import com.example.binarchapter7.areaMain.PemainVsPemain
 import com.example.binarchapter7.main.MenuActivity
+import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.fragment_battle.*
 
 
 class BattleFragment : Fragment(), View.OnClickListener {
-    //    private val args : BattleFragmentArgs by navArgs()
     private lateinit var battleViewModel: BattleViewModel
-    private var username = MenuActivity.username
+    private lateinit var result: PostLoginResponse.Data
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,11 +33,15 @@ class BattleFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context as MenuActivity).supportActionBar?.title = getString(R.string.battle)
+        val context = view.context as MenuActivity
+        context.supportActionBar?.title = getString(R.string.battle)
 
+        context.intent.getParcelableExtra<PostLoginResponse.Data>("data")?.let {
+            result = it
+        }
 //        val username = args.username
-        tv_pemain.text = getString(R.string.vs_pemain, username)
-        tv_cpu.text = getString(R.string.vs_cpu, username)
+        tv_pemain.text = getString(R.string.vs_pemain, result.username)
+        tv_cpu.text = getString(R.string.vs_cpu, result.username)
 
         pemainvspemain.setOnClickListener(this)
         pemainvscpu.setOnClickListener(this)

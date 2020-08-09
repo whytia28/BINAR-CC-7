@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.example.binarchapter7.R
 import com.example.binarchapter7.main.MenuActivity
+import com.example.binarchapter7.pojo.PostLoginResponse
 import kotlinx.android.synthetic.main.fragment_profil.*
 
 
 class ProfileFragment : Fragment(), ProfilePresenter.Listener {
     private lateinit var profileViewModel: ProfileViewModel
-    private var username = MenuActivity.username
-    private var email = MenuActivity.email
+
+    companion object {
+        lateinit var result: PostLoginResponse.Data
+    }
 
     private lateinit var presenter: ProfilePresenter
 
@@ -33,19 +35,25 @@ class ProfileFragment : Fragment(), ProfilePresenter.Listener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (view.context as MenuActivity).supportActionBar?.title = getString(R.string.profile)
-
-        presenter = ProfilePresenter(this)
-
-        et_email.setText(email)
-        et_username.setText(username)
-
-        cv_profile.setOnClickListener {
-            val dialog = UpdateUserFragment.newInstance(email, username)
-            val activity = context as MenuActivity
-            dialog.show(activity.supportFragmentManager, "Dialog Update Fragment")
+        val context = view.context as MenuActivity
+        context.supportActionBar?.title = getString(R.string.profile)
+        context.intent.getParcelableExtra<PostLoginResponse.Data>("data")?.let {
+            result = it
         }
 
+        presenter = ProfilePresenter(this)
+        presenter.showProfile()
+
+        cv_profile.setOnClickListener {
+            val dialog = UpdateUserFragment.newInstance(result.email, result.username)
+            dialog.show(context.supportFragmentManager, "Dialog Update Fragment")
+        }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.showProfile()
     }
 
     override fun onUpdateSuccess(message: String) {
@@ -54,6 +62,11 @@ class ProfileFragment : Fragment(), ProfilePresenter.Listener {
 
     override fun onUpdateFailed(errorMessage: String) {
         Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showProfile() {
+        et_email.setText(result.email)
+        et_username.setText(result.username)
     }
 
 }
