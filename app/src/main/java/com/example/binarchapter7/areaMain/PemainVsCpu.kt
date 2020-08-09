@@ -33,7 +33,6 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
         presenter = PemainVsCpuPresenter(this, this)
         pemain1.text = result.username
         date = presenter.getCurrentDate()
-        objBattle = Battle(null, pemenang, date)
 
         batu1.setOnClickListener {
             pilihanSatu = Controler.pilihanGame[0]
@@ -59,9 +58,11 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
         }
 
         iv_save.setOnClickListener {
+            objBattle = Battle(null, pemenang, date)
             presenter.saveHistory(objBattle)
         }
         iv_delete_save.setOnClickListener {
+            objBattle = Battle(null, pemenang, date)
             presenter.deleteHistory(objBattle)
         }
     }

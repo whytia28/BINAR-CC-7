@@ -2,6 +2,7 @@ package com.example.binarchapter7.areaMain
 
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +34,6 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
         pemain1.text = result.username
         presenter = PemainVsPemainPresenter(this, this)
         date = presenter.getCurrentDate()
-        objBattle = Battle(null, pemenang, date)
 
         batu1.setOnClickListener {
             pilihanSatu = Controler.pilihanGame[0]
@@ -69,9 +69,13 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
             presenter.startNew()
         }
         iv_save.setOnClickListener {
+            objBattle = Battle(null, pemenang, date)
+            objBattle.id?.let { it1 -> presenter.isHistoryAdded(it1) }
             presenter.saveHistory(objBattle)
         }
         iv_delete_save.setOnClickListener {
+            objBattle = Battle(null, pemenang, date)
+            objBattle.id?.let { it1 -> presenter.isHistoryAdded(it1) }
             presenter.deleteHistory(objBattle)
         }
     }
@@ -169,6 +173,14 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
                 Toast.LENGTH_SHORT
             ).show()
         }
+    }
+
+    override fun showButtonSave() {
+        iv_delete_save.visibility = View.VISIBLE
+    }
+
+    override fun showButtonDelete() {
+        iv_delete_save.visibility = View.GONE
     }
 
     override fun startNew() {
