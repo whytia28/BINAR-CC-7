@@ -2,7 +2,6 @@ package com.example.binarchapter7.areaMain
 
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -70,13 +69,7 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
         }
         iv_save.setOnClickListener {
             objBattle = Battle(null, pemenang, date)
-            objBattle.id?.let { it1 -> presenter.isHistoryAdded(it1) }
             presenter.saveHistory(objBattle)
-        }
-        iv_delete_save.setOnClickListener {
-            objBattle = Battle(null, pemenang, date)
-            objBattle.id?.let { it1 -> presenter.isHistoryAdded(it1) }
-            presenter.deleteHistory(objBattle)
         }
     }
 
@@ -142,6 +135,7 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
                 getString(R.string.add_history_success),
                 Toast.LENGTH_SHORT
             ).show()
+            iv_save.setImageResource(R.drawable.ic_save_active)
         }
     }
 
@@ -162,6 +156,7 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
                 getString(R.string.delete_success),
                 Toast.LENGTH_SHORT
             ).show()
+            iv_save.setImageResource(R.drawable.ic_save)
         }
     }
 
@@ -175,17 +170,10 @@ class PemainVsPemain : AppCompatActivity(), PemainVsPemainPresenter.Listener {
         }
     }
 
-    override fun showButtonSave() {
-        iv_delete_save.visibility = View.VISIBLE
-    }
-
-    override fun showButtonDelete() {
-        iv_delete_save.visibility = View.GONE
-    }
-
     override fun startNew() {
         pilihanSatu = ""
         pilihanDua = ""
+        iv_save.setImageResource(R.drawable.ic_save)
         batu1.foreground = null
         batu2.foreground = null
         kertas1.foreground = null

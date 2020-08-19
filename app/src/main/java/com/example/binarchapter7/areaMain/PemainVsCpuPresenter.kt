@@ -40,16 +40,6 @@ class PemainVsCpuPresenter(context: Context, private val listener: Listener) {
         }
     }
 
-    fun deleteHistory(battle: Battle) {
-        GlobalScope.launch {
-            val result = battleDb?.battleDao()?.deleteHistory(battle)
-            if (result != 0) {
-                listener.showSuccessDelete()
-            } else {
-                listener.showFailedDelete()
-            }
-        }
-    }
 
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())

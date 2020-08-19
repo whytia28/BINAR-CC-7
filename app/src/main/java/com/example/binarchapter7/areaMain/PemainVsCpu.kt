@@ -61,10 +61,6 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
             objBattle = Battle(null, pemenang, date)
             presenter.saveHistory(objBattle)
         }
-        iv_delete_save.setOnClickListener {
-            objBattle = Battle(null, pemenang, date)
-            presenter.deleteHistory(objBattle)
-        }
     }
 
     override fun showResult() {
@@ -125,6 +121,7 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
                 getString(R.string.add_history_success),
                 Toast.LENGTH_SHORT
             ).show()
+            iv_save.setImageResource(R.drawable.ic_save_active)
         }
     }
 
@@ -145,6 +142,7 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
                 getString(R.string.delete_success),
                 Toast.LENGTH_SHORT
             ).show()
+            iv_save.setImageResource(R.drawable.ic_save)
         }
     }
 
@@ -160,6 +158,7 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
 
     override fun startNew() {
         pilihanSatu = ""
+        iv_save.setImageResource(R.drawable.ic_save)
         batu1.foreground = null
         batu2.foreground = null
         kertas1.foreground = null

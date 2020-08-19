@@ -36,28 +36,6 @@ class PemainVsPemainPresenter(context: Context, val listener: Listener) {
         }
     }
 
-    fun deleteHistory(battle: Battle) {
-        GlobalScope.launch {
-            val result = battleDb?.battleDao()?.deleteHistory(battle)
-            if (result != 0) {
-                listener.showSuccessDelete()
-            } else {
-                listener.showFailedDelete()
-            }
-        }
-    }
-
-    fun isHistoryAdded(id: Int) {
-        GlobalScope.launch {
-            val result = battleDb?.battleDao()?.getBattleById(id)
-            if (result != 0) {
-                listener.showButtonDelete()
-            } else {
-                listener.showButtonSave()
-            }
-        }
-    }
-
     fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val date = Date()
@@ -74,7 +52,5 @@ class PemainVsPemainPresenter(context: Context, val listener: Listener) {
         fun showFailedSave()
         fun showSuccessDelete()
         fun showFailedDelete()
-        fun showButtonSave()
-        fun showButtonDelete()
     }
 }
