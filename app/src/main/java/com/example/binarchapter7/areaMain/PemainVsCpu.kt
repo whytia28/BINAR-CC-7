@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import com.example.binarchapter7.R
 import com.example.binarchapter7.database.Battle
 import com.example.binarchapter7.logic.Controler
@@ -101,15 +102,15 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
     override fun setCpuOverlay() {
         when (Controler.pilihanCpu) {
             Controler.pilihanGame[0] -> {
-                batu2.foreground = resources.getDrawable(R.drawable.overlay, null)
+                batu2.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
 
             Controler.pilihanGame[1] -> {
-                kertas2.foreground = resources.getDrawable(R.drawable.overlay, null)
+                kertas2.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
 
             Controler.pilihanGame[2] -> {
-                gunting2.foreground = resources.getDrawable(R.drawable.overlay, null)
+                gunting2.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
         }
     }
@@ -170,15 +171,15 @@ class PemainVsCpu : AppCompatActivity(), PemainVsCpuPresenter.Listener {
     override fun setOverlay() {
         when (pilihanSatu) {
             Controler.pilihanGame[0] -> {
-                batu1.foreground = resources.getDrawable(R.drawable.overlay, null)
+                batu1.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
 
             Controler.pilihanGame[1] -> {
-                kertas1.foreground = resources.getDrawable(R.drawable.overlay, null)
+                kertas1.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
 
             Controler.pilihanGame[2] -> {
-                gunting1.foreground = resources.getDrawable(R.drawable.overlay, null)
+                gunting1.foreground = ResourcesCompat.getDrawable(resources, R.drawable.overlay, null)
             }
         }
     }

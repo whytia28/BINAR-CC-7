@@ -34,11 +34,6 @@ class MenuActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
 
-//        val bundle = Bundle()
-//        bundle.putString("username", username)
-//        bundle.putString("email", email)
-//        navController.setGraph(navController.graph, bundle)
-
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_battle, R.id.navigation_history, R.id.navigation_profile

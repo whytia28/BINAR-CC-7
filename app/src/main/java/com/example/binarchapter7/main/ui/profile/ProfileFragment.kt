@@ -15,12 +15,12 @@ import kotlinx.android.synthetic.main.fragment_profil.*
 
 class ProfileFragment : Fragment(), ProfilePresenter.Listener {
     private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var presenter: ProfilePresenter
 
     companion object {
         lateinit var result: PostLoginResponse.Data
     }
 
-    private lateinit var presenter: ProfilePresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,

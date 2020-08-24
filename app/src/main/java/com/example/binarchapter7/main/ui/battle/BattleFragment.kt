@@ -40,7 +40,7 @@ class BattleFragment : Fragment(), View.OnClickListener, BattlePresenter.Listene
         context.intent.getParcelableExtra<PostLoginResponse.Data>("data")?.let {
             result = it
         }
-//        val username = args.username
+
         tv_pemain.text = getString(R.string.vs_pemain, result.username)
         tv_cpu.text = getString(R.string.vs_cpu, result.username)
 
